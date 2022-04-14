@@ -14,10 +14,14 @@ class Person(db.Model):
     personal_number = db.Column(db.Integer, unique=True, nullable=False)
     birthdate = db.Column(db.String(89), nullable=False)
     birthplace = db.Column(db.String(80), unique=True, nullable=False)
-
+    department = db.relationship('Department', backref='person')
+  
     def __repr__(self):
         return '<users %r>' % self.username
       
+class Department(db.Model):
+    department = db.Column(db.String(80), nullable=False)
+    person_id = db.Column(db.Integer, db.ForeignKey('person.id'),primary_key=True)
 
 @app.route('/user/<int:id>')
 def user(id):
